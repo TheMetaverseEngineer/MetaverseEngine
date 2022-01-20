@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.selector::-webkit-scrollbar {
+    width: 20px;
+}
+
+.selector::-webkit-scrollbar-track {
+    @apply bg-neutral-300 rounded-[3px] shadow-[0px_0px_6px_1px_#737373_inset];
+}
+
+.selector::-webkit-scrollbar-thumb {
+    @apply bg-[#606060] rounded-[3px];
+}
