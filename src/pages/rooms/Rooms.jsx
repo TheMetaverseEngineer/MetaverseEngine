@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Selector from "../../components/Selector";
 import SearchRooms from "../../components/SearchRooms";
@@ -7,6 +6,8 @@ import Accordion from "../../components/Accordion";
 import { selectCategory } from "../categories/categoriesSlice";
 import { selectRoom } from "./roomsSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { Box } from "@mui/material";
+import {Link} from "react-router-dom";
 
 const CardContent = () => {
   const largeScreen = useMediaQuery("(min-width: 1024px)");
@@ -29,8 +30,12 @@ const CardContent = () => {
   };
 
   return (
-    <div className="card-content flex flex-col sm:flex-row pt-7 px-2.5 pb-0 sm:p-7 bg-neutral-100 gap-7 sm:rounded-b-lg">
-      <div className="left-side bg-[#3C3C3C] p-2.5 sm:p-5 -mx-2.5 sm:mx-0 sm:max-w-[300px] sm:rounded shrink order-2 sm:order-none">
+    <div style={{borderRadius: "0 0 15px 15px"}} className="card-content flex flex-col sm:flex-row pt-7 px-2.5 pb-0 sm:p-7 bg-gray-100 gap-7">
+      <Box
+        bgcolor="#3C3C3C"
+        maxWidth={{ sm: 300 }}
+        className="left-side p-2.5 sm:p-5 -mx-2.5 sm:mx-0 sm:rounded shrink order-2 sm:order-none"
+      >
         <h2 className="text-4xl text-white font-black italic mb-3">
           Lorem ipsum dolor sit amet, consectetur
         </h2>
@@ -42,7 +47,7 @@ const CardContent = () => {
         <form className="bg-primary p-5 mb-3">
           <textarea
             name="text"
-            className="outline-none resize-none w-full px-2 py-1 rounded mb-1"
+            className="outline-none resize-none w-full px-2 py-1 rounded mb-2"
           />
           <div className="flex flex-col xs:flex-row gap-3">
             <input
@@ -51,7 +56,9 @@ const CardContent = () => {
             />
             <input
               type="submit"
-              className="text-white uppercase bg-primary px-3 py-1 shadow-[-3px_5px_10px_0_#333] cursor-pointer"
+              className="text-white uppercase bg-primary px-3 py-1 cursor-pointer"
+              style={{ boxShadow: "-3px 5px 10px 0 #333" }}
+              value="Sumbit"
             />
           </div>
         </form>
@@ -59,11 +66,14 @@ const CardContent = () => {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid,
           ducimus.
         </p>
-      </div>
-      <div className="right-side flex flex-col grow gap-5">
+      </Box>
+      <div className="right-side flex flex-col flex-grow gap-5">
         <SearchRooms />
-        <div className="flex flex-col lg:flex-row gap-3 lg:gap-5 lg:max-h-[350px]">
-          <div className="flex flex-col flex-[1_0_0] relative">
+        <Box
+          maxHeight={{ lg: 350 }}
+          className="flex flex-col lg:flex-row gap-3 lg:gap-5"
+        >
+          <div style={{ flex: "1 0 0" }} className="flex flex-col relative">
             {largeScreen ? (
               <>
                 <div className="mb-1">Categories:</div>
@@ -72,7 +82,9 @@ const CardContent = () => {
                   selectedItem={selectedCategory}
                   handleSelect={handleSelectCategory}
                 />
-                <div className="absolute top-full right-0">{selectedCategory.name}</div>
+                <div className="absolute top-full right-0">
+                  {selectedCategory.name}
+                </div>
               </>
             ) : (
               <Accordion
@@ -83,7 +95,7 @@ const CardContent = () => {
               />
             )}
           </div>
-          <div className="flex flex-col flex-[1_0_0]">
+          <div style={{ flex: "1 0 0" }} className="flex flex-col">
             {largeScreen ? (
               <>
                 <div className="mb-1">Rooms:</div>
@@ -102,17 +114,19 @@ const CardContent = () => {
               />
             )}
           </div>
-        </div>
+        </Box>
         <div className="flex flex-col sm:flex-row sm:self-end gap-4 sm:gap-6">
-          <button
-            type="button"
-            className="sm:w-24 py-3 bg-white uppercase font-semibold shadow-[0_4px_10px_0px_gray]"
+          <Link
+            style={{ boxShadow: "0 4px 10px 0 gray" }}
+            className="sm:w-24 text-center py-3 bg-white uppercase font-semibold rounded"
+            to="/login"
           >
             Join
-          </button>
+          </Link>
           <button
+            style={{ boxShadow: "0 4px 10px 0 gray" }}
             type="button"
-            className="sm:w-24 py-3 bg-primary uppercase font-semibold shadow-[0_4px_10px_0px_gray]"
+            className="sm:w-24 py-3 bg-primary uppercase font-semibold rounded"
           >
             Cancel
           </button>
@@ -125,7 +139,10 @@ const CardContent = () => {
 const Rooms = () => {
   return (
     <div className="wrapper flex min-h-screen sm:justify-center sm:items-center sm:px-5 sm:py-10">
-      <div className="card flex flex-col max-w-[900px] w-full shadow-[0_0_15px_0px_gray] rounded-lg">
+      <div
+        style={{ maxWidth: 900, boxShadow: "0 0 15px 0px gray", borderRadius: 15 }}
+        className="card flex flex-col w-full"
+      >
         <Header />
         <CardContent />
       </div>

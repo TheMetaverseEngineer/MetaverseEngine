@@ -1,59 +1,72 @@
+import React from "react";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import metamask from "../images/wallet_icons/metamaskWallet.png";
 import walletConnect from "../images/wallet_icons/wallet-connect.svg";
-import { useRef } from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisWeb3Api } from "react-moralis";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate, Link } from "react-router-dom";
 
 const Modal = ({ show, setShow }) => {
-  const backdrop = useRef();
-  const { authenticate } = useMoralis();
+  const navigate = useNavigate();
+  const web3 = useMoralisWeb3Api();
+  const { authenticate, isAuthenticated } = useMoralis();
+
+  const handleMetamaskLogin = async () => {
+    await authenticate({
+      onComplete: () => navigate("/rooms"),
+      onError: () => alert("Login failed!"),
+    });
+  };
+
+  const handleWalletconnectLogin = async () => {
+    await authenticate({
+      provider: "walletconnect",
+      onComplete: () => navigate("/rooms"),
+      onError: () => alert("Login failed!"),
+    });
+    navigate("/rooms");
+  };
 
   return (
-    <div
-      className={`modal-backdrop fixed inset-0 bg-gray-800/40 justify-center items-center p-5 overflow-y-auto ${
-        show ? "flex" : "hidden"
-      }`}
-      onClick={(e) => {
-        if (e.target !== backdrop.current) return;
-        setShow(false);
-      }}
-      ref={backdrop}
-    >
-      <div className="modal bg-white rounded-lg relative p-5 max-w-screen-xs w-full">
-        <h6 className="modal-title text-center mb-5 font-bold text-lg">
-          Connect Wallet
-        </h6>
-        <div className="flex flex-col sm:flex-row justify-evenly gap-4">
-          <button
-            onClick={() => authenticate()}
-            className="flex flex-row sm:flex-col items-center gap-5 sm:gap-1"
-          >
-            <img
-              src={metamask}
-              alt="MetaMask"
-              className="w-9 h-9 sm:w-12 sm:h-12"
-            />
-            <div className="">MetaMask</div>
-          </button>
-          <button
-            onClick={() => authenticate({ provider: "walletconnect" })}
-            className="flex flex-row sm:flex-col items-center gap-5 sm:gap-1"
-          >
-            <img
-              src={walletConnect}
-              alt="Wallet Connect"
-              className="w-9 h-9 sm:w-12 sm:h-12"
-            />
-            <div className="">WalletConnect</div>
-          </button>
-        </div>
-        <button
-          className="absolute top-2 right-4 text-xl text-gray-400 hover:text-gray-800"
+    <Dialog maxWidth="xs" fullWidth open={show} onClose={() => setShow(false)}>
+      <DialogTitle className="text-center">
+        Connect Wallet
+        <IconButton
           onClick={() => setShow(false)}
+          className="absolute top-0 right-2"
         >
-          <i className="fas fa-times" />
-        </button>
-      </div>
-    </div>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className="flex flex-col items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center justify-evenly gap-3 w-full">
+          <Button
+            onClick={handleMetamaskLogin}
+            className="flex w-full sm:w-auto flex-row sm:flex-col justify-start gap-2 text-black normal-case"
+          >
+            <img src={metamask} alt="MetaMask" className="w-12 h-12" />
+            MetaMask
+          </Button>
+          <Button
+            onClick={handleWalletconnectLogin}
+            className="flex w-full sm:w-auto flex-row sm:flex-col justify-start gap-2 text-black normal-case"
+          >
+            <img src={walletConnect} alt="WalletConnect" className="w-12 h-12" />
+            WalletConnect
+          </Button>
+        </div>
+
+        <Button variant="contained" fullWidth component={Link} to="/rooms">
+          Play as guest
+        </Button>
+      </DialogContent>
+    </Dialog>
   );
 };
 

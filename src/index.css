@@ -7,9 +7,12 @@
 }
 
 .selector::-webkit-scrollbar-track {
-    @apply bg-neutral-300 rounded-[3px] shadow-[0px_0px_6px_1px_#737373_inset];
+    box-shadow: 0 0 6px 1px #737373 inset;
+    border-radius: 3px;
+    @apply bg-gray-300;
 }
 
 .selector::-webkit-scrollbar-thumb {
-    @apply bg-[#606060] rounded-[3px];
+    border-radius: 3px;
+    background-color: #606060;
 }

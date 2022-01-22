@@ -3,7 +3,7 @@ import { selectCategory } from "../pages/categories/categoriesSlice";
 import { selectRoom } from "../pages/rooms/roomsSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import noData from "../images/no_data.png";
+import { Box } from "@mui/material";
 
 const SearchRooms = ({ placeholder = "Lorem ipsum", id = "search" }) => {
   const navigate = useNavigate();
@@ -36,24 +36,28 @@ const SearchRooms = ({ placeholder = "Lorem ipsum", id = "search" }) => {
       >
         {placeholder}:
       </label>
-      <div className="flex grow relative">
+      <div className="flex relative flex-grow">
         <input
           autoComplete="off"
           placeholder={placeholder}
           id={id}
           type="text"
-          className="shadow-[1px_0_6px_0_#737373_inset] w-full outline-none px-3 py-1.5 grow"
+          className="w-full outline-none px-3 py-1.5 flex-grow"
           onFocus={() => setOpen(true)}
           onBlur={() => setOpen(false)}
           onInput={handleSearch}
+          style={{boxShadow: "1px 0 6px 0 #737373 inset" }}
         />
-        <div className="bg-neutral-300 flex items-center shadow-[-1px_0_6px_0_#737373_inset] px-3 py-1 text-gray-600 shrink">
+        <div
+          style={{ boxShadow: "1px 0 6px 0 #737373 inset" }}
+          className="bg-gray-300 flex items-center px-3 py-1 text-gray-600 shrink"
+        >
           <i className="fas fa-search" />
         </div>
-        <div
-          className={`absolute inset-x-0 overflow-y-auto top-full bg-white shadow-2xl z-50 ${
-            open ? "py-2 max-h-[150px]" : "h-0"
-          }`}
+        <Box
+          className="absolute inset-x-0 overflow-y-auto top-full bg-white shadow-2xl z-50"
+          maxHeight={open ? 150 : 0}
+          py={open ? 2 : 0}
         >
           <ul>
             {options?.length ? (
@@ -61,7 +65,7 @@ const SearchRooms = ({ placeholder = "Lorem ipsum", id = "search" }) => {
                 <li key={index}>
                   <button
                     type="button"
-                    className="py-0.5 px-3 hover:bg-neutral-300 w-full text-left"
+                    className="py-0.5 px-3 hover:bg-gray-300 w-full text-left"
                     onMouseDown={() => handleSelect(option)}
                   >
                     {option.name}
@@ -72,7 +76,7 @@ const SearchRooms = ({ placeholder = "Lorem ipsum", id = "search" }) => {
               <div className="px-3 select-none">NO DATA</div>
             )}
           </ul>
-        </div>
+        </Box>
       </div>
     </div>
   );
